@@ -1,0 +1,2 @@
+task: indic_boolq_telugu
+class: !function boolq.Telugu_Boolq

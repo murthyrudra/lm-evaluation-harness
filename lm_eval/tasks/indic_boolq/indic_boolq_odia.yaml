@@ -1,0 +1,2 @@
+task: indic_boolq_odia
+class: !function boolq.Odia_Boolq
