@@ -1,0 +1,19 @@
+group: milu_generate
+task:
+  - milu_English_Gen
+  - milu_Bengali_Gen
+  - milu_Hindi_Gen
+  - milu_Tamil_Gen
+  - milu_Telugu_Gen
+  - milu_Malayalam_Gen
+  - milu_Kannada_Gen
+  - milu_Marathi_Gen
+  - milu_Gujarati_Gen
+  - milu_Punjabi_Gen
+  - milu_Odia_Gen
+
+aggregate_metric_list:
+  - metric: exact_match
+    weight_by_size: True
+metadata:
+  version: 0.0
