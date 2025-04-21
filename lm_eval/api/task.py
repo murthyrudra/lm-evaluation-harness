@@ -394,6 +394,7 @@ class Task(abc.ABC):
         fewshot_as_multiturn: bool = False,
         chat_template: Optional[Callable] = None,
         tokenizer_name: str = "",
+        thinking: bool = False,
     ) -> None:
         """Build a set of Instances for a task, and store them in task.instances"""
 
@@ -403,6 +404,7 @@ class Task(abc.ABC):
         cache_key = f"requests-{self._config.task}-{self.config.num_fewshot}shot-rank{rank}-world_size{world_size}"
         cache_key += "-chat_template" if apply_chat_template else ""
         cache_key += "-fewshot_as_multiturn" if fewshot_as_multiturn else ""
+        cache_key += "-thinking" if thinking else ""
         cache_key += (
             f"-system_prompt_hash{utils.hash_string(system_instruction)}"
             if system_instruction is not None
@@ -457,6 +459,7 @@ class Task(abc.ABC):
                 fewshot_as_multiturn,
                 chat_template,
                 gen_prefix=self.doc_to_prefix(doc),
+                thinking=thinking,
             )
 
             # TODO: we should override self.config.repeats if doing greedy gen so users don't waste time+compute
@@ -466,6 +469,7 @@ class Task(abc.ABC):
                 metadata=(self.config["task"], doc_id, self.config.repeats),
                 apply_chat_template=apply_chat_template,
                 chat_template=chat_template,
+                thinking=thinking,
             )
 
             if not isinstance(inst, list):
@@ -696,9 +700,9 @@ class Task(abc.ABC):
     ) -> Iterator[Tuple[int, Any]]:
         if samples:
             n = len(self.eval_docs)
-            assert all([e < n for e in samples]), (
-                f"Elements of --samples should be in the interval [0,k-1] where k is the number of total examples. In this case, k={n}."
-            )
+            assert all(
+                [e < n for e in samples]
+            ), f"Elements of --samples should be in the interval [0,k-1] where k is the number of total examples. In this case, k={n}."
             eval_logger.info(
                 f"{self.config.task}: Evaluating on {len(samples)} examples"
             )
@@ -1081,6 +1085,7 @@ class ConfigurableTask(Task):
         fewshot_as_multiturn: bool = False,
         chat_template: Optional[Callable] = None,
         gen_prefix: Optional[str] = None,
+        thinking: Optional[bool] = False,
     ) -> Union[str, List[str]]:
         """Returns a fewshot context string that is made up of a prepended description
         (if provided), the `num_fewshot` number of examples, and an appended prompt example.
@@ -1200,6 +1205,7 @@ class ConfigurableTask(Task):
             return chat_template(
                 labeled_examples,
                 add_generation_prompt=False if gen_prefix else True,
+                thinking=thinking,
             )
         else:
             prefix = (
@@ -1700,7 +1706,9 @@ class ConfigurableTask(Task):
                             predictions=[result],
                             **self._metric_fn_kwargs[metric],
                         )
-                    except TypeError:  # needed for now in order to use a different interface between our own metrics and HF Evaluate metrics
+                    except (
+                        TypeError
+                    ):  # needed for now in order to use a different interface between our own metrics and HF Evaluate metrics
                         result_score = self._metric_fn_list[metric]([gold, result])
                 if isinstance(result_score, dict):
                     # TODO: this handles the case where HF evaluate returns a dict.

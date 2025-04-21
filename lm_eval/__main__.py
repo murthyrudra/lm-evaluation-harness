@@ -208,6 +208,12 @@ def setup_parser() -> argparse.ArgumentParser:
         ),
     )
     parser.add_argument(
+        "--thinking",
+        action="store_true",
+        default=False,
+        help=("Enable thinking in the LLMs"),
+    )
+    parser.add_argument(
         "--fewshot_as_multiturn",
         action="store_true",
         default=False,
@@ -348,9 +354,7 @@ def cli_evaluate(args: Union[argparse.Namespace, None] = None) -> None:
     metadata = (
         simple_parse_args_string(args.model_args)
         if isinstance(args.model_args, str)
-        else args.model_args
-        if isinstance(args.model_args, dict)
-        else {}
+        else args.model_args if isinstance(args.model_args, dict) else {}
     ) | (
         args.metadata
         if isinstance(args.metadata, dict)
@@ -370,9 +374,9 @@ def cli_evaluate(args: Union[argparse.Namespace, None] = None) -> None:
             "REAL METRICS SHOULD NOT BE COMPUTED USING LIMIT."
         )
     if args.samples:
-        assert args.limit is None, (
-            "If --samples is not None, then --limit must be None."
-        )
+        assert (
+            args.limit is None
+        ), "If --samples is not None, then --limit must be None."
         if (samples := Path(args.samples)).is_file():
             args.samples = json.loads(samples.read_text())
         else:
@@ -473,6 +477,7 @@ def cli_evaluate(args: Union[argparse.Namespace, None] = None) -> None:
         fewshot_random_seed=args.seed[3],
         confirm_run_unsafe_code=args.confirm_run_unsafe_code,
         metadata=metadata,
+        thinking=args.thinking,
         **request_caching_args,
     )
 

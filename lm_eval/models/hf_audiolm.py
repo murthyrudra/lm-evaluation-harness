@@ -89,14 +89,20 @@ class HFAUDIOLMQWEN(HFLM):
         self.tokenizer = self.processor.tokenizer
 
     def apply_chat_template(
-        self, chat_history: List[Dict[str, str]], add_generation_prompt: bool = True
+        self,
+        chat_history: List[Dict[str, str]],
+        add_generation_prompt: bool = True,
+        thinking: bool = False,
     ) -> str:
         """
         Method to apply a chat template to a list of chat history between user and model.
         """
 
         chat_templated = self.processor.apply_chat_template(
-            chat_history, tokenize=False, add_generation_prompt=add_generation_prompt
+            chat_history,
+            tokenize=False,
+            add_generation_prompt=add_generation_prompt,
+            thinking=thinking,
         )
 
         return chat_templated

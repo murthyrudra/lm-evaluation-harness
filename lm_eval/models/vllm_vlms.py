@@ -146,7 +146,10 @@ class VLLM_VLM(VLLM):
         return outputs
 
     def apply_chat_template(
-        self, chat_history: List[Dict[str, str]], add_generation_prompt=True
+        self,
+        chat_history: List[Dict[str, str]],
+        add_generation_prompt=True,
+        thinking: bool = False,
     ) -> str:
         self.chat_applied = True
         if not self.interleave:
@@ -184,8 +187,8 @@ class VLLM_VLM(VLLM):
                     if part:  # Add non-empty text parts
                         c.append({"type": "text", "text": part})
                     if (
-                        (i < len(text_parts) - 1) and i < self.max_images
-                    ):  # Add image placeholder after each split except the last
+                        i < len(text_parts) - 1
+                    ) and i < self.max_images:  # Add image placeholder after each split except the last
                         c.append({"type": "image"})
                         actual_image_count += 1
 

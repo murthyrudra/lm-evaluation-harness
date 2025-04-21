@@ -439,7 +439,7 @@ class WatsonxLLM(LM):
         return ""
 
     def apply_chat_template(
-        self, chat_history: List[Dict[str, str]]
+        self, chat_history: List[Dict[str, str]], thinking: bool = False
     ) -> List[Dict[str, str]]:
         # A hack similar from api_model to allow encoding for cache
         return JsonChatStr(json.dumps(chat_history))

@@ -76,6 +76,7 @@ def simple_evaluate(
     fewshot_random_seed: int = 1234,
     confirm_run_unsafe_code: bool = False,
     metadata: Optional[dict] = None,
+    thinking: Optional[dict] = None,
 ):
     """Instantiate and evaluate a model on a list of tasks.
 
@@ -246,18 +247,14 @@ def simple_evaluate(
             use_cache
             # each rank receives a different cache db.
             # necessary to avoid multiple writes to cache at once
-            + "_rank"
-            + str(lm.rank)
-            + ".db",
+            + "_rank" + str(lm.rank) + ".db",
         )
 
     if task_manager is None:
         metadata = (
             simple_parse_args_string(model_args)
             if isinstance(model_args, str)
-            else model_args
-            if isinstance(model_args, dict)
-            else {}
+            else model_args if isinstance(model_args, dict) else {}
         ) | (metadata or {})
         task_manager = TaskManager(metadata=metadata)
 
@@ -329,10 +326,11 @@ def simple_evaluate(
             model_source=model,
             model_args=model_args,
             system_instruction=system_instruction,
-            chat_template=lm.chat_template(apply_chat_template)
-            if apply_chat_template
-            else None,
+            chat_template=(
+                lm.chat_template(apply_chat_template) if apply_chat_template else None
+            ),
             fewshot_as_multiturn=fewshot_as_multiturn,
+            thinking=thinking,
         )
 
     results = evaluate(
@@ -350,6 +348,7 @@ def simple_evaluate(
         fewshot_as_multiturn=fewshot_as_multiturn,
         verbosity=verbosity,
         confirm_run_unsafe_code=confirm_run_unsafe_code,
+        thinking=thinking,
     )
     if verbosity is not None:
         setup_logging(verbosity=verbosity)
@@ -413,6 +412,7 @@ def evaluate(
     fewshot_as_multiturn: bool = False,
     verbosity: str = "INFO",
     confirm_run_unsafe_code: bool = False,
+    thinking: bool = False,
 ):
     """Instantiate and evaluate a model on a list of tasks.
 
@@ -510,9 +510,11 @@ def evaluate(
         limits.append(limit)
         task.build_all_requests(
             limit=limit,
-            samples=samples.get(task_output.task_name, None)
-            if samples is not None
-            else samples,
+            samples=(
+                samples.get(task_output.task_name, None)
+                if samples is not None
+                else samples
+            ),
             rank=lm.rank,
             world_size=lm.world_size,
             cache_requests=cache_requests,
@@ -520,12 +522,13 @@ def evaluate(
             system_instruction=system_instruction,
             apply_chat_template=bool(apply_chat_template),
             fewshot_as_multiturn=fewshot_as_multiturn,
-            chat_template=getattr(lm, "apply_chat_template")
-            if apply_chat_template
-            else None,
-            tokenizer_name=getattr(lm, "tokenizer_name", "")
-            if apply_chat_template
-            else "",
+            chat_template=(
+                getattr(lm, "apply_chat_template") if apply_chat_template else None
+            ),
+            tokenizer_name=(
+                getattr(lm, "tokenizer_name", "") if apply_chat_template else ""
+            ),
+            thinking=thinking,
         )
         eval_logger.debug(
             f"Task: {task_output.task_name}; number of requests on this rank: {len(task.instances)}"

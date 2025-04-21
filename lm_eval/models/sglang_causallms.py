@@ -70,9 +70,9 @@ class SGLangLM(TemplateLM):
             )
 
         assert "cuda" in device or device is None, "SGLang only supports CUDA"
-        assert context_length is None or max_model_len is None, (
-            "Either context_length or max_model_len may be provided, but not both"
-        )
+        assert (
+            context_length is None or max_model_len is None
+        ), "Either context_length or max_model_len may be provided, but not both"
         # Initialize your sglang model here
         self._max_length = (
             max_model_len if max_model_len is not None else context_length
@@ -400,7 +400,10 @@ class SGLangLM(TemplateLM):
         pass
 
     def apply_chat_template(
-        self, chat_history: List[Dict[str, str]], add_generation_prompt: bool = True
+        self,
+        chat_history: List[Dict[str, str]],
+        add_generation_prompt: bool = True,
+        thinking: bool = False,
     ) -> str:
         """
         Method to apply a chat template to a list of chat history between user and model.
@@ -410,6 +413,7 @@ class SGLangLM(TemplateLM):
             tokenize=False,
             add_generation_prompt=add_generation_prompt,
             continue_final_message=not add_generation_prompt,
+            thinking=thinking,
         )
 
         return chat_templated

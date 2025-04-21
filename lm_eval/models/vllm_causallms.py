@@ -75,9 +75,9 @@ class VLLM(TemplateLM):
                 "Please install vllm via `pip install lm-eval[vllm]` or `pip install -e .[vllm]`"
             )
 
-        assert max_length is None or max_model_len is None, (
-            "Either max_length or max_model_len may be provided, but not both"
-        )
+        assert (
+            max_length is None or max_model_len is None
+        ), "Either max_length or max_model_len may be provided, but not both"
 
         self._max_length = max_model_len if max_model_len is not None else max_length
         self.tensor_parallel_size = int(tensor_parallel_size)
@@ -142,9 +142,9 @@ class VLLM(TemplateLM):
         self._max_gen_toks = max_gen_toks
 
         if lora_local_path is not None:
-            assert parse_version(version("vllm")) > parse_version("0.3.0"), (
-                "lora adapters only compatible with vllm > v0.3.0."
-            )
+            assert parse_version(version("vllm")) > parse_version(
+                "0.3.0"
+            ), "lora adapters only compatible with vllm > v0.3.0."
             self.lora_request = LoRARequest("finetuned", 1, lora_local_path)
         else:
             self.lora_request = None
@@ -185,7 +185,10 @@ class VLLM(TemplateLM):
         return self._max_gen_toks
 
     def apply_chat_template(
-        self, chat_history: List[Dict[str, str]], add_generation_prompt: bool = True
+        self,
+        chat_history: List[Dict[str, str]],
+        add_generation_prompt: bool = True,
+        thinking: bool = False,
     ) -> str:
         """
         Method to apply a chat template to a list of chat history between user and model.
@@ -195,6 +198,7 @@ class VLLM(TemplateLM):
             tokenize=False,
             add_generation_prompt=add_generation_prompt,
             continue_final_message=not add_generation_prompt,
+            thinking=thinking,
         )
 
         return chat_templated
@@ -524,12 +528,14 @@ class VLLM(TemplateLM):
             return getattr(logprob, "logprob", logprob)
 
         continuation_logprobs_dicts = [
-            {
-                token: coerce_logprob_to_num(logprob)
-                for token, logprob in logprob_dict.items()
-            }
-            if logprob_dict is not None
-            else None
+            (
+                {
+                    token: coerce_logprob_to_num(logprob)
+                    for token, logprob in logprob_dict.items()
+                }
+                if logprob_dict is not None
+                else None
+            )
             for logprob_dict in continuation_logprobs_dicts
         ]
 

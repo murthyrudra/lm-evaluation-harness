@@ -114,7 +114,10 @@ class LM(abc.ABC):
         pass
 
     def apply_chat_template(
-        self, chat_history: List[Dict[str, str]], add_generation_prompt=True
+        self,
+        chat_history: List[Dict[str, str]],
+        add_generation_prompt=True,
+        thinking: bool = False,
     ) -> str:
         """
         Defines how to transform few-shot examples provided as chat history into a format that can be used as input to the LM.

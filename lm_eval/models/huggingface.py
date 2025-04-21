@@ -100,9 +100,9 @@ class HFLM(TemplateLM):
             eval_logger.warning(
                 "`pretrained` model kwarg is not of type `str`. Many other model arguments may be ignored. Please do not launch via accelerate or use `parallelize=True` if passing an existing model this way."
             )
-            assert not parallelize, (
-                "`parallelize=True` is not compatible with passing pre-initialized model to `pretrained`"
-            )
+            assert (
+                not parallelize
+            ), "`parallelize=True` is not compatible with passing pre-initialized model to `pretrained`"
             self._model = pretrained
             self._device = self._model.device
             self._config = self._model.config
@@ -575,9 +575,9 @@ class HFLM(TemplateLM):
 
         if not autogptq and not gptqmodel:
             if model_kwargs.get("load_in_4bit", None):
-                assert transformers.__version__ >= "4.30.0", (
-                    "load_in_4bit requires transformers >= 4.30.0"
-                )
+                assert (
+                    transformers.__version__ >= "4.30.0"
+                ), "load_in_4bit requires transformers >= 4.30.0"
             if transformers.__version__ >= "4.30.0":
                 if model_kwargs.get("load_in_4bit", None):
                     if model_kwargs.get("bnb_4bit_compute_dtype", None):
@@ -612,9 +612,9 @@ class HFLM(TemplateLM):
                     pretrained,
                     trust_remote_code=trust_remote_code,
                     model_basename=None if autogptq is True else Path(autogptq).stem,
-                    use_safetensors=True
-                    if autogptq is True
-                    else autogptq.endswith(".safetensors"),
+                    use_safetensors=(
+                        True if autogptq is True else autogptq.endswith(".safetensors")
+                    ),
                     **model_kwargs,
                 )
 
@@ -765,7 +765,9 @@ class HFLM(TemplateLM):
                     (batch_size, max_length), device=self.device
                 ).long()
             for _ in range(5):
-                out = F.log_softmax(self._model_call(test_batch, **call_kwargs), dim=-1)  # noqa: F841
+                out = F.log_softmax(
+                    self._model_call(test_batch, **call_kwargs), dim=-1
+                )  # noqa: F841
 
             return batch_size
 
@@ -913,16 +915,16 @@ class HFLM(TemplateLM):
         self, logits: torch.Tensor, contlen: int = None, inplen: int = None
     ) -> torch.Tensor:
         if self.backend == "causal":
-            assert contlen and inplen, (
-                "Must pass input len and cont. len to select scored logits for causal LM"
-            )
+            assert (
+                contlen and inplen
+            ), "Must pass input len and cont. len to select scored logits for causal LM"
             # discard right-padding.
             # also discard the input/context tokens. we'll only score continuations.
             logits = logits[inplen - contlen : inplen]
         elif self.backend == "seq2seq":
-            assert contlen and not inplen, (
-                "Selecting scored logits for Seq2SeqLM requires only cont. len"
-            )
+            assert (
+                contlen and not inplen
+            ), "Selecting scored logits for Seq2SeqLM requires only cont. len"
             # only discard right-padding.
             # the logits input to this fn only contain decoder-side tokens.
             logits = logits[:contlen]
@@ -1064,9 +1066,9 @@ class HFLM(TemplateLM):
         re_ord = Collator(
             requests,
             sort_fn=_collate,
-            group_by="contexts"
-            if self.backend == "causal" and self.logits_cache
-            else None,
+            group_by=(
+                "contexts" if self.backend == "causal" and self.logits_cache else None
+            ),
             group_fn=_lookup_one_token_cont,
         )
 
@@ -1076,9 +1078,7 @@ class HFLM(TemplateLM):
         batch_size = (
             self.batch_size
             if self.batch_size != "auto"
-            else override_bs
-            if override_bs is not None
-            else 0
+            else override_bs if override_bs is not None else 0
         )
         batch_fn = (
             self._batch_scheduler
@@ -1233,7 +1233,9 @@ class HFLM(TemplateLM):
                 ):
                     cont_toks = torch.tensor(
                         cont_toks, dtype=torch.long, device=self.device
-                    ).unsqueeze(0)  # [1, seq]
+                    ).unsqueeze(
+                        0
+                    )  # [1, seq]
                     max_equal = (greedy_tokens == cont_toks).all()
 
                     # Obtain log-probs at the corresponding continuation token indices
@@ -1292,9 +1294,7 @@ class HFLM(TemplateLM):
         batch_size = (
             self.batch_size
             if self.batch_size != "auto"
-            else adaptive_batch_size
-            if adaptive_batch_size is not None
-            else 0
+            else adaptive_batch_size if adaptive_batch_size is not None else 0
         )
         batch_fn = (
             self._batch_scheduler
@@ -1337,9 +1337,9 @@ class HFLM(TemplateLM):
             if self.backend == "causal":
                 # max len for inputs = max length, minus room to generate the max new tokens
                 max_ctx_len = self.max_length - max_gen_toks
-                assert max_ctx_len > 0, (
-                    f"Invalid configuration: requested max tokens to generate ({max_gen_toks}) must be less than model's maximum sequence length ({self.max_length})."
-                )
+                assert (
+                    max_ctx_len > 0
+                ), f"Invalid configuration: requested max tokens to generate ({max_gen_toks}) must be less than model's maximum sequence length ({self.max_length})."
             elif self.backend == "seq2seq":
                 # max len for inputs = encoder's whole max_length
                 max_ctx_len = self.max_length
@@ -1391,7 +1391,10 @@ class HFLM(TemplateLM):
         return res
 
     def apply_chat_template(
-        self, chat_history: List[Dict[str, str]], add_generation_prompt: bool = True
+        self,
+        chat_history: List[Dict[str, str]],
+        add_generation_prompt: bool = True,
+        add_thinking: bool = False,
     ) -> str:
         """
         Method to apply a chat template to a list of chat history between user and model.
@@ -1402,6 +1405,7 @@ class HFLM(TemplateLM):
                 tokenize=False,
                 add_generation_prompt=add_generation_prompt,
                 continue_final_message=not add_generation_prompt,
+                thinking=add_thinking,
             )
         except jinja2.exceptions.TemplateError:
             eval_logger.warning(
@@ -1413,6 +1417,7 @@ class HFLM(TemplateLM):
                 tokenize=False,
                 add_generation_prompt=add_generation_prompt,
                 continue_final_message=not add_generation_prompt,
+                thinking=add_thinking,
             )
 
         return chat_templated
