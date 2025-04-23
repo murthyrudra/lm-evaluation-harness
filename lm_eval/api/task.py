@@ -469,7 +469,6 @@ class Task(abc.ABC):
                 metadata=(self.config["task"], doc_id, self.config.repeats),
                 apply_chat_template=apply_chat_template,
                 chat_template=chat_template,
-                thinking=thinking,
             )
 
             if not isinstance(inst, list):
@@ -1181,6 +1180,7 @@ class ConfigurableTask(Task):
                         chat_template(
                             chat,
                             add_generation_prompt=False if gen_prefix else True,
+                            thinking=thinking,
                         )
                     )
                 return labeled_examples_list

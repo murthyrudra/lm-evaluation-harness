@@ -1394,7 +1394,7 @@ class HFLM(TemplateLM):
         self,
         chat_history: List[Dict[str, str]],
         add_generation_prompt: bool = True,
-        add_thinking: bool = False,
+        thinking: bool = False,
     ) -> str:
         """
         Method to apply a chat template to a list of chat history between user and model.
@@ -1405,7 +1405,7 @@ class HFLM(TemplateLM):
                 tokenize=False,
                 add_generation_prompt=add_generation_prompt,
                 continue_final_message=not add_generation_prompt,
-                thinking=add_thinking,
+                thinking=thinking,
             )
         except jinja2.exceptions.TemplateError:
             eval_logger.warning(
@@ -1417,7 +1417,7 @@ class HFLM(TemplateLM):
                 tokenize=False,
                 add_generation_prompt=add_generation_prompt,
                 continue_final_message=not add_generation_prompt,
-                thinking=add_thinking,
+                thinking=thinking,
             )
 
         return chat_templated
