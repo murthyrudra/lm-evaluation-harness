@@ -199,7 +199,7 @@ def evaluate(args):
                 ex["thinking"], ex["response"] = extract_think_and_response(generated)
                 generations.append(ex)
 
-    save_to_jsonl(generations, os.path.join(args.output_file, f"{args.language.jsonl}"))
+    save_to_jsonl(generations, os.path.join(args.output_file, f"{args.language}.jsonl"))
 
 
 if __name__ == "__main__":
