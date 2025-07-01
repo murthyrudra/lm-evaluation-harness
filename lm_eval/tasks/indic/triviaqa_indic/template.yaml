@@ -1,0 +1,23 @@
+tag:
+  - triviaqa_indic
+task: triviaqa_indic
+dataset_path: sarvamai/trivia-qa-indic-mcq
+dataset_name: sarvamai/trivia-qa-indic-mcq
+output_type: multiple_choice
+test_split: validation
+doc_to_text: "{{question.strip()}}\nA. {{choices[0]}}\nB. {{choices[1]}}\nC. {{choices[2]}}\nD. {{choices[3]}}\nAnswer:"
+doc_to_target: answer
+doc_to_choice: ["A", "B", "C", "D"]
+should_decontaminate: true
+doc_to_decontamination_query: "Question: {{question}}\nAnswer:"
+metric_list:
+  - metric: acc
+    aggregation: mean
+    higher_is_better: true
+  - metric: acc_norm
+    aggregation: mean
+    higher_is_better: true
+metadata:
+  version: 1.0
+dataset_kwargs:
+  trust_remote_code: true

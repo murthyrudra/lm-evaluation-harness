@@ -1,0 +1,26 @@
+dataset_name: gu
+dataset_path: sarvamai/arc-challenge-indic
+doc_to_choice: '{{choices.text}}'
+doc_to_decontamination_query: 'Question: {{question}}
+
+  Answer:'
+doc_to_target: '{{choices.label.index(answerKey)}}'
+doc_to_text: 'Question: {{question}}
+
+  Answer:'
+metadata:
+  version: 1.0
+metric_list:
+- aggregation: mean
+  higher_is_better: true
+  metric: acc
+- aggregation: mean
+  higher_is_better: true
+  metric: acc_norm
+output_type: multiple_choice
+should_decontaminate: true
+tag:
+- ai2_arc_indic
+task: arc-challenge-indic-gu
+test_split: test
+validation_split: validation

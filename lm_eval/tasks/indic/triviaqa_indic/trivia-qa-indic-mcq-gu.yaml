@@ -1,0 +1,39 @@
+dataset_kwargs:
+  trust_remote_code: true
+dataset_name: gu
+dataset_path: sarvamai/trivia-qa-indic-mcq
+doc_to_choice:
+- A
+- B
+- C
+- D
+doc_to_decontamination_query: 'Question: {{question}}
+
+  Answer:'
+doc_to_target: answer
+doc_to_text: '{{question.strip()}}
+
+  A. {{choices[0]}}
+
+  B. {{choices[1]}}
+
+  C. {{choices[2]}}
+
+  D. {{choices[3]}}
+
+  Answer:'
+metadata:
+  version: 1.0
+metric_list:
+- aggregation: mean
+  higher_is_better: true
+  metric: acc
+- aggregation: mean
+  higher_is_better: true
+  metric: acc_norm
+output_type: multiple_choice
+should_decontaminate: true
+tag:
+- triviaqa_indic
+task: trivia-qa-indic-mcq-gu
+test_split: validation

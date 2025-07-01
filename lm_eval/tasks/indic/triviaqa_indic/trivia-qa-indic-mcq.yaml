@@ -1,0 +1,14 @@
+group: trivia-qa-indic-mcq
+task:
+- trivia-qa-indic-mcq-bn
+- trivia-qa-indic-mcq-gu
+- trivia-qa-indic-mcq-hi
+- trivia-qa-indic-mcq-kn
+- trivia-qa-indic-mcq-ml
+- trivia-qa-indic-mcq-mr
+- trivia-qa-indic-mcq-or
+- trivia-qa-indic-mcq-pa
+- trivia-qa-indic-mcq-ta
+- trivia-qa-indic-mcq-te
+metadata:
+  version: 0.0
