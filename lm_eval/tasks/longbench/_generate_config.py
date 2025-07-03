@@ -138,11 +138,10 @@ DATASETS = [
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--save_prefix_path", default="longbench")
+    parser.add_argument("--save_prefix_path", default="")
     return parser.parse_args()
 
 
-# Create template string
 template_str = """
 tag:
   - {{ tag[0] }}
@@ -152,10 +151,12 @@ test_split: {{ test_split }}
 dataset_name: {{ dataset_name }}
 doc_to_text: '{{ doc_to_text }}'
 doc_to_target: '{{ doc_to_target }}'
+process_results: {{ process_results }}
 generation_kwargs:
   max_gen_toks: {{ generation_kwargs.max_gen_toks }}
   temperature: {{ generation_kwargs.temperature }}
   do_sample: {{ generation_kwargs.do_sample }}
+  until: {% if has_newline %}["\\n"]{% else %}[]{% endif %}
 metric_list:
   - metric: {{ metric_list[0].metric }}
     aggregation: {{ metric_list[0].aggregation }}
@@ -171,11 +172,18 @@ if __name__ == "__main__":
     template = env.from_string(template_str)
     for ds in DATASETS:
         df = ds[:-2] if ds.endswith("_e") else ds
+        # from https://github.com/THUDM/LongBench/blob/2e00731f8d0bff23dc4325161044d0ed8af94c1e/LongBench/eval.py#L52C25-L52C29
+
+        # Now we just set a boolean flag to indicate whether we need a newline
+        has_newline = df in ["trec", "triviaqa", "samsum", "lsht"]
+
         generation_kwargs = {
             "max_gen_toks": dataset2maxlen[df],
             "temperature": 1,
             "do_sample": True,
+            # We'll handle the until value directly in the template
         }
+
         raw_doc_to_text = (
             dataset2prompt[df]
             .replace("\n", "\\n")
@@ -184,25 +192,25 @@ if __name__ == "__main__":
         )
         metric_list = [
             {
-                "metric": f"!function metrics.{dataset2metric[df]}",
+                "metric": f'"{dataset2metric[df]}"',
                 "aggregation": "mean",
                 "higher_is_better": True,
             }
         ]
 
         data = {
-            "tag": [
-                "longbench_e" if ds.endswith("_e") else "longbench"
-            ],  # Now properly as a list
+            "tag": ["longbench_e" if ds.endswith("_e") else "longbench"],
             "task": f"longbench_{ds}",
             "dataset_path": "THUDM/LongBench",
             "test_split": "test",
             "dataset_name": ds,
             "doc_to_text": raw_doc_to_text,
             "doc_to_target": "{{answers}}",
+            "process_results": f"!function metrics.get_{dataset2metric[df]}",
             "generation_kwargs": generation_kwargs,
+            "has_newline": has_newline,  # Add the flag to the template context
             "metric_list": metric_list,
-            "metadata": {"version": "1.0"},
+            "metadata": {"version": "3.0"},
         }
 
         # Render template
@@ -211,35 +219,3 @@ if __name__ == "__main__":
         # Save to file
         with open(args.save_prefix_path + f"{ds}.yaml", "w") as f:
             f.write(rendered_yaml)
-
-    # for ds in DATASETS:
-    #     df = ds[:-2] if ds.endswith("_e") else ds
-    #     generation_kwargs = {"max_gen_toks": dataset2maxlen[df], "temperature": 1, "do_sample": False}
-    #     # Escape newlines and curly braces
-    #     raw_doc_to_text = dataset2prompt[df].replace("\n", "\\n").replace("{", "{{").replace("}", "}}")
-    #     metric_list = [
-    #         {"metric": f"!function metrics.{dataset2metric[df]}", "aggregation": "mean", "higher_is_better": True}]
-    #     yaml_dict = {
-    #         "tag": ["longbench_e" if ds.endswith("_e") else "longbench"],
-    #         "task": f"longbench_{ds}",
-    #         "dataset_path": "THUDM/LongBench",
-    #         "test_split": "test",
-    #         "dataset_name": ds,
-    #         "doc_to_text": raw_doc_to_text,
-    #         "doc_to_target": "{{answers}}",
-    #         "generation_kwargs": generation_kwargs,
-    #         "metric_list": metric_list,
-    #         "metadata": {"version": "1.0"}
-    #     }
-    #     template = env.from_string(yaml_dict)
-    #
-    #
-    #     file_save_path = args.save_prefix_path + f"{ds}.yaml"
-    #     with open(file_save_path, "w", encoding="utf-8") as yaml_file:
-    #         yaml.dump(
-    #             yaml_dict,
-    #             yaml_file,
-    #             allow_unicode=True,
-    #             default_flow_style=False,
-    #             sort_keys=False
-    #         )
