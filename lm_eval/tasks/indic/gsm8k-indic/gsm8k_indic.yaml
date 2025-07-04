@@ -1,24 +1,24 @@
 group: gsm8k_indic
 task:
 - gsm8k-indic-bn
-- gsm8k-indic-bn_roman
+- gsm8k-indic-bn-roman
 - gsm8k-indic-gu
-- gsm8k-indic-gu_roman
+- gsm8k-indic-gu-roman
 - gsm8k-indic-hi
-- gsm8k-indic-hi_roman
+- gsm8k-indic-hi-roman
 - gsm8k-indic-kn
-- gsm8k-indic-kn_roman
+- gsm8k-indic-kn-roman
 - gsm8k-indic-ml
-- gsm8k-indic-ml_roman
+- gsm8k-indic-ml-roman
 - gsm8k-indic-mr
-- gsm8k-indic-mr_roman
+- gsm8k-indic-mr-roman
 - gsm8k-indic-or
-- gsm8k-indic-or_roman
+- gsm8k-indic-or-roman
 - gsm8k-indic-pa
-- gsm8k-indic-pa_roman
+- gsm8k-indic-pa-roman
 - gsm8k-indic-ta
-- gsm8k-indic-ta_roman
+- gsm8k-indic-ta-roman
 - gsm8k-indic-te
-- gsm8k-indic-te_roman
+- gsm8k-indic-te-roman
 metadata:
   version: 0.0

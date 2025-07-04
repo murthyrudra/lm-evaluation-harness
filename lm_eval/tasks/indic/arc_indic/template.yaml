@@ -1,6 +1,6 @@
 tag:
   - ai2_arc_indic
-task: arc_challenge_indic
+task: arc_challenge_indic_template
 dataset_path: sarvamai/arc-challenge-indic
 dataset_name: ARC-Easy
 output_type: multiple_choice
