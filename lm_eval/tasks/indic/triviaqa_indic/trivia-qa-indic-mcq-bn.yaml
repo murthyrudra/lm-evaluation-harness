@@ -34,6 +34,6 @@ metric_list:
 output_type: multiple_choice
 should_decontaminate: true
 tag:
-- triviaqa_indic
+- trivia-qa-indic-mcq
 task: trivia-qa-indic-mcq-bn
 test_split: validation

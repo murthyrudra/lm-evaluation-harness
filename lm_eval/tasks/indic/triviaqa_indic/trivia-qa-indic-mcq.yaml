@@ -10,5 +10,9 @@ task:
 - trivia-qa-indic-mcq-pa
 - trivia-qa-indic-mcq-ta
 - trivia-qa-indic-mcq-te
+
+aggregate_metric_list:
+  - metric: acc
+    weight_by_size: False
 metadata:
   version: 0.0

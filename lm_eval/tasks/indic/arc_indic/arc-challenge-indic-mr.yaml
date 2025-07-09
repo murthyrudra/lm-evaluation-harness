@@ -20,7 +20,7 @@ metric_list:
 output_type: multiple_choice
 should_decontaminate: true
 tag:
-- ai2_arc_indic
+- arc-challenge-indic
 task: arc-challenge-indic-mr
 test_split: test
 validation_split: validation

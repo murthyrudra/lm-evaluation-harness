@@ -10,5 +10,9 @@ task:
 - arc-challenge-indic-pa
 - arc-challenge-indic-ta
 - arc-challenge-indic-te
+
+aggregate_metric_list:
+  - metric: acc
+    weight_by_size: False
 metadata:
   version: 0.0
