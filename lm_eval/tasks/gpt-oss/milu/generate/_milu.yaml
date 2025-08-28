@@ -1,0 +1,19 @@
+group: milu_generate_gpt_oss
+task:
+  - milu_English_Gen_gpt_oss
+  - milu_Bengali_Gen_gpt_oss
+  - milu_Hindi_Gen_gpt_oss
+  - milu_Tamil_Gen_gpt_oss
+  - milu_Telugu_Gen_gpt_oss
+  - milu_Malayalam_Gen_gpt_oss
+  - milu_Kannada_Gen_gpt_oss
+  - milu_Marathi_Gen_gpt_oss
+  - milu_Gujarati_Gen_gpt_oss
+  - milu_Punjabi_Gen_gpt_oss
+  - milu_Odia_Gen_gpt_oss
+
+aggregate_metric_list:
+  - metric: exact_match
+    weight_by_size: True
+metadata:
+  version: 0.0

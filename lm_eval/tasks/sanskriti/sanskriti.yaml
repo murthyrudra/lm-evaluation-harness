@@ -1,0 +1,13 @@
+group: sanskriti
+task:
+  - sanskriti_association
+  - sanskriti_country
+  - sanskriti_gk
+  - sanskriti_states
+
+aggregate_metric_list:
+  - metric: acc
+    weight_by_size: True
+
+metadata:
+  version: 0.0

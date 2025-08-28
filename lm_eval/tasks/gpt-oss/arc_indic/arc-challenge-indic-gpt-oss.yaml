@@ -1,0 +1,14 @@
+group: arc-challenge-indic-gpt-oss
+task:
+- arc-challenge-indic-bn-gpt-oss
+- arc-challenge-indic-gu-gpt-oss
+- arc-challenge-indic-hi-gpt-oss
+- arc-challenge-indic-kn-gpt-oss
+- arc-challenge-indic-ml-gpt-oss
+- arc-challenge-indic-mr-gpt-oss
+- arc-challenge-indic-or-gpt-oss
+- arc-challenge-indic-pa-gpt-oss
+- arc-challenge-indic-ta-gpt-oss
+- arc-challenge-indic-te-gpt-oss
+metadata:
+  version: 0.0

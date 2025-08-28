@@ -1,0 +1,2 @@
+task: indic_boolq_marathi
+class: !function boolq.Marathi_Boolq

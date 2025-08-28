@@ -607,29 +607,34 @@ class TemplateAPI(TemplateLM):
         if self._concurrent <= 1:
             pbar = tqdm(desc="Requesting API", total=len(requests))
             for chunk in chunked:
-                inputs, ctxlens, cache_keys = self.batch_loglikelihood_requests([chunk])
+                try:
+                    inputs, ctxlens, cache_keys = self.batch_loglikelihood_requests([chunk])
 
-                outputs = retry(
-                    stop=stop_after_attempt(self.max_retries),
-                    wait=wait_exponential(multiplier=0.5, min=1, max=10),
-                    reraise=True,
-                )(self.model_call)(messages=inputs, generate=False)
-                if isinstance(outputs, dict):
-                    outputs = [outputs]
-                for answer_, cache_key in zip(
-                    self.parse_logprobs(
-                        outputs=outputs, tokens=inputs, ctxlens=ctxlens
-                    ),
-                    cache_keys,
-                ):
-                    if answer_ is not None:
-                        res.append(answer_)
-                        # cache requests that aren't from a loglikelihood_rolling request
-                        if cache_key is not None:
-                            self.cache_hook.add_partial(
-                                "loglikelihood", cache_key, answer_
-                            )
-                        pbar.update(1)
+                    outputs = retry(
+                        stop=stop_after_attempt(self.max_retries),
+                        wait=wait_exponential(multiplier=0.5, min=1, max=10),
+                        reraise=True,
+                    )(self.model_call)(messages=inputs, generate=False)
+                    if isinstance(outputs, dict):
+                        outputs = [outputs]
+                    for answer_, cache_key in zip(
+                        self.parse_logprobs(
+                            outputs=outputs, tokens=inputs, ctxlens=ctxlens
+                        ),
+                        cache_keys,
+                    ):
+                        if answer_ is not None:
+                            res.append(answer_)
+                            # cache requests that aren't from a loglikelihood_rolling request
+                            if cache_key is not None:
+                                self.cache_hook.add_partial(
+                                    "loglikelihood", cache_key, answer_
+                                )
+                            pbar.update(1)
+                except Exception as e:
+                    res.append("FAILED with exception: "+ str(e))
+                    print("Failed for chunk: ", chunk)
+                    print("Exception: ", e)
         else:
             inputs, ctxlens, cache_keys = self.batch_loglikelihood_requests(chunked)
             res = itertools.chain.from_iterable(
@@ -743,6 +748,8 @@ class TemplateAPI(TemplateLM):
                                 generated_text,
                             )
                             pbar.update(1)
+                    else:
+                        res.append("Unanswerable")
         else:
             for chunk in chunked:
                 contexts, all_gen_kwargs, encodings_list = zip(*chunk)

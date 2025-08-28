@@ -1,0 +1,17 @@
+group: trivia-qa-indic-mcq-gpt-oss
+task:
+- trivia-qa-indic-mcq-bn-gpt-oss
+- trivia-qa-indic-mcq-gu-gpt-oss
+- trivia-qa-indic-mcq-hi-gpt-oss
+- trivia-qa-indic-mcq-kn-gpt-oss
+- trivia-qa-indic-mcq-ml-gpt-oss
+- trivia-qa-indic-mcq-mr-gpt-oss
+- trivia-qa-indic-mcq-or-gpt-oss
+- trivia-qa-indic-mcq-pa-gpt-oss
+- trivia-qa-indic-mcq-ta-gpt-oss
+- trivia-qa-indic-mcq-te-gpt-oss
+metadata:
+  version: 0.0
+aggregate_metric_list:
+- metric: exact_match
+  weight_by_size: true

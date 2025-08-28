@@ -1,0 +1,2 @@
+task: indic_boolq_hindi
+class: !function boolq.Hindi_Boolq

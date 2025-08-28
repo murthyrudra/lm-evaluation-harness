@@ -1,0 +1,5 @@
+dataset_name: association_questions
+include: _default_template_yaml
+tag: sanskriti-core
+task: sanskriti_association
+task_alias: sanskriti_association

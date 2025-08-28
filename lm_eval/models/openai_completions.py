@@ -167,7 +167,13 @@ class LocalChatCompletion(LocalCompletionsAPI):
         for out in outputs:
             tmp = [None] * len(out["choices"])
             for choices in out["choices"]:
-                tmp[choices["index"]] = choices["message"]["content"]
+                if "content" in choices["message"]:
+                    tmp[choices["index"]] = choices["message"]["content"]
+                elif "refusal" in choices["message"]:
+                    tmp[choices["index"]] = "NO RESPONSE. Refusal: "+str(choices["message"]["refusal"])
+                else:
+                    print("Content not found: ", choices["message"])
+                    tmp[choices["index"]] = "NO RESPONSE"
             res = res + tmp
         return res
 
@@ -295,3 +301,40 @@ class OpenAIChatCompletion(LocalChatCompletion):
         elif "o3" in self.model:
             output.pop("temperature")
         return output
+
+@register_model("rits-completions")
+class RITSCompletionsAPI(LocalCompletionsAPI):
+    
+    @cached_property
+    def header(self) -> dict:
+        """Adding RITS API Key in the header."""
+        return { "RITS_API_KEY": self.api_key}
+    
+    @property
+    def api_key(self):
+        """Override this property to return the API key for the API request."""
+        key = os.environ.get("RITS_API_KEY", None)
+        if key is None:
+            raise ValueError(
+                "API key not found. Please set the `RITS_API_KEY` environment variable."
+            )
+        return key
+
+
+@register_model("rits-chat-completions")
+class RITSChatCompletionsAPI(LocalChatCompletion):
+    
+    @cached_property
+    def header(self) -> dict:
+        """Adding RITS API Key in the header."""
+        return { "RITS_API_KEY": self.api_key}
+    
+    @property
+    def api_key(self):
+        """Override this property to return the API key for the API request."""
+        key = os.environ.get("RITS_API_KEY", None)
+        if key is None:
+            raise ValueError(
+                "API key not found. Please set the `RITS_API_KEY` environment variable."
+            )
+        return key
