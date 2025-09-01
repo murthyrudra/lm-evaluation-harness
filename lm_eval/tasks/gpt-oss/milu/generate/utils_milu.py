@@ -59,7 +59,7 @@ def process_results_gen(doc, results):
     else:
         raise ValueError(f"Invalid option {target}")
 
-    candidate = candidate.strip().lower().split("\n")[0].split(" ")[0].strip()
+    candidate = candidate.strip().split("\n")[0].split(" ")[0].strip()
 
     if "." in candidate:
         candidate = candidate.split(".")[0]
