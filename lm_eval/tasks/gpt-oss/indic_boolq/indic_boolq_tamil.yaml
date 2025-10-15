@@ -1,2 +1,0 @@
-task: indic_boolq_tamil
-class: !function boolq.Tamil_Boolq

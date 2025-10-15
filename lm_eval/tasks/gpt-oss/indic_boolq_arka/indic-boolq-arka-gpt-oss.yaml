@@ -1,0 +1,17 @@
+group: indic-boolq-arka-gpt-oss
+task:
+- indic-boolq-arka-bn-gpt-oss
+- indic-boolq-arka-gu-gpt-oss
+- indic-boolq-arka-hi-gpt-oss
+- indic-boolq-arka-kn-gpt-oss
+- indic-boolq-arka-mr-gpt-oss
+- indic-boolq-arka-ml-gpt-oss
+- indic-boolq-arka-or-gpt-oss
+- indic-boolq-arka-pa-gpt-oss
+- indic-boolq-arka-ta-gpt-oss
+- indic-boolq-arka-te-gpt-oss
+metadata:
+  version: 0.0
+
+
+

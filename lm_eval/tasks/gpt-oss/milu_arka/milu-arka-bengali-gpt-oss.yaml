@@ -1,0 +1,46 @@
+dataset_name: Bengali
+dataset_path: murthyrudra/milu-cleaned
+doc_to_target: '{{target}}'
+doc_to_text: 'Given the following question and four candidate answers (option1, option2, option3 and
+  option4), choose the best answer.
+
+  Question: {{ question }}
+
+  option1. {{ option1 }}
+
+  option2. {{ option2 }}
+
+  option3. {{ option3 }}
+
+  option4. {{ option4 }}
+
+  Your response should end with "The best answer is [the_answer_option]" where the
+  [the_answer_option] is one of option1, option2, option3 or option4.'
+filter_list:
+- filter:
+  - function: remove_whitespace
+  - function: regex
+    group_select: -1
+    regex_pattern: The best answer is (option1|option2|option3|option4)
+  - function: take_first
+  name: strict_match
+generation_kwargs:
+  do_sample: false
+  max_gen_toks: 8192
+  until: []
+metadata:
+  version: 1.0
+metric_list:
+- aggregation: mean
+  higher_is_better: true
+  ignore_case: true
+  ignore_punctuation: true
+  metric: exact_match
+  regexes_to_ignore:
+  - \$
+  - \.$
+output_type: generate_until
+should_decontaminate: true
+task: milu-arka-bengali-gpt-oss
+test_split: test
+validation_split: validation

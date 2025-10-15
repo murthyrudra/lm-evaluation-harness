@@ -21,10 +21,9 @@ filter_list:
   - function: remove_whitespace
   - function: regex
     group_select: -1
-    regex_pattern: best answer is ([A-Z])
+    regex_pattern: The best answer is ([A-Z])
   - function: take_first
   name: strict_match
-gen_prefix: The best answer is
 generation_kwargs:
   do_sample: false
   max_gen_toks: 8192

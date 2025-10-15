@@ -1,0 +1,18 @@
+group: milu-arka-gpt-oss
+task:
+- milu-arka-bengali-gpt-oss
+- milu-arka-gujarati-gpt-oss
+- milu-arka-hindi-gpt-oss
+- milu-arka-kannada-gpt-oss
+- milu-arka-malayalam-gpt-oss
+- milu-arka-marathi-gpt-oss
+- milu-arka-odia-gpt-oss
+- milu-arka-punjabi-gpt-oss
+- milu-arka-tamil-gpt-oss
+- milu-arka-telugu-gpt-oss
+- milu-arka-english-gpt-oss
+metadata:
+  version: 0.0
+
+
+

@@ -1,0 +1,38 @@
+dataset_path: sarvamai/boolq-indic
+process_docs: !function utils.filter_hi
+doc_to_target: '{{answer}}'
+doc_to_text: 'You are given a passage of text and a question. Your task is to answer the question with a single word: "yes" or "no", based solely on the information in the passage.
+
+  Question: {{ question }}
+
+  Passage : {{passage}}
+
+  Your response should end with "The best answer is [the_answer]" where the
+  [the_answer] is one of "yes" or "no".'
+filter_list:
+- filter:
+  - function: remove_whitespace
+  - function: regex
+    group_select: -1
+    regex_pattern: The best answer is (yes|no)
+  - function: take_first
+  name: strict_match
+generation_kwargs:
+  do_sample: false
+  max_gen_toks: 8192
+  until: []
+metadata:
+  version: 1.0
+metric_list:
+- aggregation: mean
+  higher_is_better: true
+  ignore_case: true
+  ignore_punctuation: true
+  metric: exact_match
+  regexes_to_ignore:
+  - \$
+  - \.$
+output_type: generate_until
+should_decontaminate: true
+task: indic-boolq-arka-hi-gpt-oss
+validation_split: validation

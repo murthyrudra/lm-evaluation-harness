@@ -1,0 +1,6 @@
+dataset_path: 13ari/Sanskriti
+process_docs: !function utils.filter_states
+include: _default_template_yaml
+tag: sanskriti-core-gpt-oss
+task: sanskriti_states-gpt-oss
+task_alias: sanskriti_states

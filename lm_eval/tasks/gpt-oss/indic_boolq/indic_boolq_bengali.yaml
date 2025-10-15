@@ -1,2 +1,0 @@
-task: indic_boolq_bengali
-class: !function boolq.Bengali_Boolq
