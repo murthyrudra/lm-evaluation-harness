@@ -1,2 +1,0 @@
-task: indic_boolq_gujarati
-class: !function boolq.Gujarati_Boolq

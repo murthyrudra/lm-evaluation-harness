@@ -1,0 +1,6 @@
+group: bbl-gpt-oss
+task:
+- bbl-hindi-gpt-oss
+- bbl-english-gpt-oss
+metadata:
+  version: 0.0

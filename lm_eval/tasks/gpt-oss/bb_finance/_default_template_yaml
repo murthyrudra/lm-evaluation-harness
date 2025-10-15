@@ -1,0 +1,43 @@
+dataset_path: bharatgenai/BhashaBench-Ayur
+doc_to_target: '{{correct_answer}}'
+doc_to_text: 'Given the following question and four candidate answers (A, B, C and
+  D), choose the best answer.
+
+  Question: {{ question }}
+
+  A. {{ option_a }}
+
+  B. {{ option_b }}
+
+  C. {{ option_c }}
+
+  D. {{ option_d }}
+
+  Your response should end with "The best answer is [the_answer_letter]" where the
+  [the_answer_letter] is one of A, B, C or D.'
+filter_list:
+- filter:
+  - function: remove_whitespace
+  - function: regex
+    group_select: -1
+    regex_pattern: The best answer is ([A-Z])
+  - function: take_first
+  name: strict_match
+generation_kwargs:
+  do_sample: false
+  max_gen_toks: 8192
+  until: []
+metadata:
+  version: 1.0
+metric_list:
+- aggregation: mean
+  higher_is_better: true
+  ignore_case: true
+  ignore_punctuation: true
+  metric: exact_match
+  regexes_to_ignore:
+  - \$
+  - \.$
+output_type: generate_until
+should_decontaminate: true
+test_split: test

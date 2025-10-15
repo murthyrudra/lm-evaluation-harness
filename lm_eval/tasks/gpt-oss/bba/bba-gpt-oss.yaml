@@ -1,0 +1,6 @@
+group: bba-gpt-oss
+task:
+- bba-hindi-gpt-oss
+- bba-english-gpt-oss
+metadata:
+  version: 0.0

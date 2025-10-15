@@ -1,2 +1,0 @@
-task: indic_boolq_punjabi
-class: !function boolq.Punjabi_Boolq

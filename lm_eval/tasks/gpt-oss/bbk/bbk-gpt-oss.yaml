@@ -1,0 +1,6 @@
+group: bbk-gpt-oss
+task:
+- bbk-hindi-gpt-oss
+- bbk-english-gpt-oss
+metadata:
+  version: 0.0
