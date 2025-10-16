@@ -1,5 +1,0 @@
-dataset_name: Hindi
-include: _default_template_yaml
-tag: bba-core
-task: bba_Hindi
-task_alias: bba_Hindi

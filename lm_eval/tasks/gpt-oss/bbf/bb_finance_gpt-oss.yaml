@@ -1,7 +1,7 @@
-group: bbl-gpt-oss
+group: bb_finance-gpt-oss
 task:
-- bbl-hindi-gpt-oss
-- bbl-english-gpt-oss
+- bb_finance-hindi-gpt-oss
+- bb_finance-english-gpt-oss
 metadata:
   version: 0.0
 aggregate_metric_list:

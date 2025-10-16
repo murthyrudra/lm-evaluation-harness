@@ -1,18 +1,18 @@
-dataset_name: ta
-dataset_path: sarvamai/arc-challenge-indic
-doc_to_target: '{{answerKey}}'
+dataset_name: Hindi
+dataset_path: bharatgenai/BhashaBench-Finance
+doc_to_target: '{{correct_answer}}'
 doc_to_text: 'Given the following question and four candidate answers (A, B, C and
   D), choose the best answer.
 
   Question: {{ question }}
 
-  A. {{ choices.text[0] }}
+  A. {{ option_a }}
 
-  B. {{ choices.text[1] }}
+  B. {{ option_b }}
 
-  C. {{ choices.text[2] }}
+  C. {{ option_c }}
 
-  D. {{ choices.text[3] }}
+  D. {{ option_d }}
 
   Your response should end with "The best answer is [the_answer_letter]" where the
   [the_answer_letter] is one of A, B, C or D.'
@@ -26,7 +26,7 @@ filter_list:
   name: strict_match
 generation_kwargs:
   do_sample: false
-  max_gen_toks: 512
+  max_gen_toks: 8192
   until: []
 metadata:
   version: 1.0
@@ -41,6 +41,5 @@ metric_list:
   - \.$
 output_type: generate_until
 should_decontaminate: true
-task: arc-challenge-indic-ta-gpt-oss
+task: bb_finance-hindi-gpt-oss
 test_split: test
-validation_split: validation

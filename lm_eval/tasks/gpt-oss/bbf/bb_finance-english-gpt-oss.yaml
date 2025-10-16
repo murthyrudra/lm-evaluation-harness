@@ -1,4 +1,5 @@
-dataset_path: bharatgenai/BhashaBench-Ayur
+dataset_name: English
+dataset_path: bharatgenai/BhashaBench-Finance
 doc_to_target: '{{correct_answer}}'
 doc_to_text: 'Given the following question and four candidate answers (A, B, C and
   D), choose the best answer.
@@ -40,4 +41,5 @@ metric_list:
   - \.$
 output_type: generate_until
 should_decontaminate: true
+task: bb_finance-english-gpt-oss
 test_split: test

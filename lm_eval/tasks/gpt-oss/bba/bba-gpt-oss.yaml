@@ -4,3 +4,6 @@ task:
 - bba-english-gpt-oss
 metadata:
   version: 0.0
+aggregate_metric_list:
+- metric: exact_match
+  weight_by_size: true

@@ -8,3 +8,8 @@ task:
 
 metadata:
   version: 0.0
+
+
+aggregate_metric_list:
+  - metric: acc
+    weight_by_size: True

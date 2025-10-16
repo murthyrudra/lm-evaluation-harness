@@ -1,9 +1,0 @@
-dataset_name: English
-include: _default_template_yaml
-custom_dataset: !function utils.load_dataset
-dataset_kwargs: 
-  range: '10:2000'
-  split: 'test'
-tag: bb_finance_english_part1-gpt-oss
-task: bb_finance_english_part1-gpt-oss
-task_alias: bb_finance_english_part1-gpt-oss
