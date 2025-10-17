@@ -1,30 +1,39 @@
-doc_to_target: '{{answer}}'
-doc_to_text: 'Given the following question and four candidate answers (option1, option2, option3 and
-  option4), choose the best answer.
+doc_to_target: |-
+  {%- if answer.strip().lower() == option1.strip().lower() -%}
+  A
+  {%- elif answer.strip().lower() == option2.strip().lower() -%}
+  B
+  {%- elif answer.strip().lower() == option3.strip().lower() -%}
+  C
+  {%- elif answer.strip().lower() == option4.strip().lower() -%}
+  D
+  {%- endif -%}
+doc_to_text: 'Given the following question and four candidate answers (A, B, C and
+  D), choose the best answer.
 
   Question: {{ question }}
 
-  option1. {{ option1 }}
+  A. {{ option1 }}
 
-  option2. {{ option2 }}
+  B. {{ option2 }}
 
-  option3. {{ option3 }}
+  C. {{ option3 }}
 
-  option4. {{ option4 }}
+  D. {{ option4 }}
 
-  Your response should end with "The best answer is [the_answer_option]" where the
-  [the_answer_option] is one of option1, option2, option3 or option4.'
+  Your response should end with "The best answer is [the_answer_letter]" where the
+  [the_answer_letter] is one of A, B, C or D.'
 filter_list:
 - filter:
   - function: remove_whitespace
   - function: regex
     group_select: -1
-    regex_pattern: The best answer is (option1|option2|option3|option4)
+    regex_pattern: The best answer is ([A-Z])
   - function: take_first
   name: strict_match
 generation_kwargs:
   do_sample: false
-  max_gen_toks: 512
+  max_gen_toks: 8192
   until: []
 metadata:
   version: 1.0
