@@ -84,4 +84,7 @@ if __name__ == "__main__":
 '''
 USAGE : python3 get_weighted_avg_result.py path_to_json_file key_of_metric_to_be_extracted
 where key_of_metric_to_be_extracted = 'exact_match,strict_match' for generation based eval and 'acc,none' for log-likelihood based evals and so on.
+
+EXAMPLE : 
+python3 get_weighted_avg_result.py /dccstor/indiclm/arkadeep/output/sarvam-24b/sarvamai__sarvam-m/results_2025-10-14T14-25-10.405760.json "exact_match,strict_match"
 '''
