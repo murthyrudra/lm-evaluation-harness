@@ -1,0 +1,10 @@
+group: sanskriti-gpt-oss
+task:
+  - sanskriti_association-gpt-oss
+  - sanskriti_country-gpt-oss
+  - sanskriti_gk-gpt-oss
+  - sanskriti_states-gpt-oss
+
+
+metadata:
+  version: 0.0
