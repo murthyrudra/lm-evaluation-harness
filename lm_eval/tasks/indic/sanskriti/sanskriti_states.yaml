@@ -1,0 +1,5 @@
+dataset_name: states_questions
+include: _default_template_yaml
+tag: sanskriti-core
+task: sanskriti_states
+task_alias: sanskriti_states

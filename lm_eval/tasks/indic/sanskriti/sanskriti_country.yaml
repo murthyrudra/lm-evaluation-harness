@@ -1,0 +1,5 @@
+dataset_name: country_questions
+include: _default_template_yaml
+tag: sanskriti-core
+task: sanskriti_country
+task_alias: sanskriti_country

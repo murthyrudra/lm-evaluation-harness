@@ -1,0 +1,5 @@
+dataset_name: gk_questions
+include: _default_template_yaml
+tag: sanskriti-core
+task: sanskriti_gk
+task_alias: sanskriti_gk

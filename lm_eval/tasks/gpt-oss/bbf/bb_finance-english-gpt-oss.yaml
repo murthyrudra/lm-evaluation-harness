@@ -41,5 +41,5 @@ metric_list:
   - \.$
 output_type: generate_until
 should_decontaminate: true
-task: bb_finance-english-gpt-oss
+task: bbf-english-gpt-oss
 test_split: test
