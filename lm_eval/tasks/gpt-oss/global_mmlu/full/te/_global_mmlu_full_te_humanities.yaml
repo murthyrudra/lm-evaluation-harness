@@ -1,0 +1,8 @@
+group: global_mmlu_full_te_humanities-gpt-oss
+task:
+  - global_mmlu_full_te_humanities_tasks-gpt-oss
+aggregate_metric_list:
+  - metric: exact_match
+    weight_by_size: true
+metadata:
+  version: 0.0
