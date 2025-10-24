@@ -1,13 +1,13 @@
-group: global_mmlu_hi
+group: global_mmlu_hi-gpt-oss
 task:
-  - global_mmlu_hi_business
-  - global_mmlu_hi_humanities
-  - global_mmlu_hi_medical
-  - global_mmlu_hi_other
-  - global_mmlu_hi_stem
-  - global_mmlu_hi_social_sciences
+  - global_mmlu_hi_business-gpt-oss
+  - global_mmlu_hi_humanities-gpt-oss
+  - global_mmlu_hi_medical-gpt-oss
+  - global_mmlu_hi_other-gpt-oss
+  - global_mmlu_hi_stem-gpt-oss
+  - global_mmlu_hi_social_sciences-gpt-oss
 aggregate_metric_list:
-  - metric: acc
+  - metric: exact_match
     weight_by_size: True
 metadata:
   version: 0.0
