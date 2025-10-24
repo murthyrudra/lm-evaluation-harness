@@ -35,4 +35,5 @@ metric_list:
 output_type: generate_until
 should_decontaminate: true
 task: indic-boolq-arka-ta-gpt-oss
+training_split: train
 validation_split: validation

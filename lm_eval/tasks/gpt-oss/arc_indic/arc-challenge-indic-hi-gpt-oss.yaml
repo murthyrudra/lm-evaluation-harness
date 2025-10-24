@@ -14,19 +14,19 @@ doc_to_text: 'Given the following question and four candidate answers (A, B, C a
 
   D. {{ choices.text[3] }}
 
-  Your response should end with "The best answer is [the_answer_letter]" where the
-  [the_answer_letter] is one of A, B, C or D.'
+  Your response should end with the correct answer letter which is one of A, B, C
+  or D.'
 filter_list:
 - filter:
   - function: remove_whitespace
   - function: regex
     group_select: -1
-    regex_pattern: The best answer is ([A-Z])
+    regex_pattern: ^(.*?)(?=\n|$)
   - function: take_first
   name: strict_match
 generation_kwargs:
   do_sample: false
-  max_gen_toks: 512
+  max_gen_toks: 100
   until: []
 metadata:
   version: 1.0

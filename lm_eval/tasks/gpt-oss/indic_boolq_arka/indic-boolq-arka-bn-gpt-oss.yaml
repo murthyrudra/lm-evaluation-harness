@@ -1,6 +1,4 @@
 dataset_path: sarvamai/boolq-indic
-dataset_kwargs:
-  split: validation
 process_docs: !function utils.filter_bn
 doc_to_target: '{{answer}}'
 doc_to_text: 'You are given a passage of text and a question. Your task is to answer the question with a single word: "yes" or "no", based solely on the information in the passage.
@@ -37,4 +35,5 @@ metric_list:
 output_type: generate_until
 should_decontaminate: true
 task: indic-boolq-arka-bn-gpt-oss
+training_split: train
 validation_split: validation

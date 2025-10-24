@@ -17,6 +17,8 @@ def compute_average_acc_none(json_file_path):
                 acc_values.append(value["acc,none"])
             elif isinstance(value, dict) and "acc,none" in value:
                 acc_values.append(value["acc,none"])
+            elif isinstance(value, dict) and "exact_match,strict_match" in value:
+                acc_values.append(value["exact_match,strict_match"])
                 # continue
         else:
             if isinstance(value, dict) and "acc,none" in value:

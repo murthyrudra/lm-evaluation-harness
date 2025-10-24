@@ -13,7 +13,7 @@ def compute_average_acc_none(json_file_path):
     for key, value in results.items():
         if key == "milu":
             continue
-        elif key == "milu_English":
+        elif "milu_English" in key:
             if "acc,none" in value:
                 eng_acc = value["acc,none"]
             else:
