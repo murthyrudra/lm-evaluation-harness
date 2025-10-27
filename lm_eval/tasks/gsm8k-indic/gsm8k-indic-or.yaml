@@ -1,0 +1,4 @@
+dataset_name: or
+include: _default_template
+task: gsm8k-indic-or-new
+task_alias: gsm8k-indic-or-new

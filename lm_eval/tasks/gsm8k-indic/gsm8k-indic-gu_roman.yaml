@@ -1,0 +1,4 @@
+dataset_name: gu_roman
+include: _default_template
+task: gsm8k-indic-gu_roman-new
+task_alias: gsm8k-indic-gu_roman-new

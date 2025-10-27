@@ -1,0 +1,4 @@
+dataset_name: ml
+include: _default_template
+task: gsm8k-indic-ml-new
+task_alias: gsm8k-indic-ml-new

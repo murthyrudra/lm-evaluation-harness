@@ -1,0 +1,4 @@
+dataset_name: hi_roman
+include: _default_template
+task: gsm8k-indic-hi_roman-new
+task_alias: gsm8k-indic-hi_roman-new

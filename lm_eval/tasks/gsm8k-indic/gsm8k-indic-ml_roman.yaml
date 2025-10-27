@@ -1,0 +1,7 @@
+dataset_name: ml_roman
+include: _default_template
+task: gsm8k-indic-ml_roman-new
+task_alias: gsm8k-indic-ml_roman-new
+
+
+

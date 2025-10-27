@@ -1,0 +1,4 @@
+dataset_name: mr
+include: _default_template
+task: gsm8k-indic-mr-new
+task_alias: gsm8k-indic-mr-new
