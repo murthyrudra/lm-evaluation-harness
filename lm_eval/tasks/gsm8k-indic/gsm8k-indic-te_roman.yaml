@@ -1,0 +1,4 @@
+dataset_name: te_roman
+include: _default_template
+task: gsm8k-indic-te_roman-new
+task_alias: gsm8k-indic-te_roman-new

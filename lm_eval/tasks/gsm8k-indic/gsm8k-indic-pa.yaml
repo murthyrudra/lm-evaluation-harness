@@ -1,0 +1,4 @@
+dataset_name: pa
+include: _default_template
+task: gsm8k-indic-pa-new
+task_alias: gsm8k-indic-pa-new

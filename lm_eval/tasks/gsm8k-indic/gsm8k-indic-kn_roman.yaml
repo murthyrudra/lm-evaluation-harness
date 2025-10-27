@@ -1,0 +1,4 @@
+dataset_name: kn_roman
+include: _default_template
+task: gsm8k-indic-kn_roman-new
+task_alias: gsm8k-indic-kn_roman-new

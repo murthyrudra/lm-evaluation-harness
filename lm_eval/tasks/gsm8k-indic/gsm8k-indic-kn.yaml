@@ -1,0 +1,4 @@
+dataset_name: kn
+include: _default_template
+task: gsm8k-indic-kn-new
+task_alias: gsm8k-indic-kn-new
